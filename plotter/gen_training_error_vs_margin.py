@@ -1,5 +1,5 @@
 """
-Generate margin vs training error.
+Generate training error vs margin.
 """
 
 import matplotlib.pyplot as plt
@@ -46,14 +46,14 @@ def main():
     3. Repeat the previous two steps with increasing margin sizes.
 
     Storage format:
-    List[List[margin, List[errors], average, stdev]]
+    List[List[margin, average, stdev]]
     """
     start = -400
     end = 400
     training_size = 100
     testing_size = 1000
     margin_start = 0
-    margin_end = 350
+    margin_end = 175
     margin_step = 1
     samples_per_margin = 10
 
@@ -84,10 +84,40 @@ def main():
 
         average = statistics.mean(training_errors)
         std = statistics.stdev(training_errors)
-        experiment_data.append([margin, training_errors, average, std])
+        experiment_data.append([margin, average, std])
 
-    # Plot and save graph
-    plt.title('Margin vs Training Error for Perceptron')
+    # Preprocess
+    max_training_error = max([item[1] for item in experiment_data])
+
+    # Plot without standard deviation
+    plt.title('Training Error vs Margin for Perceptron')
+    plt.xlabel('Margin')
+    plt.ylabel('Training Error')
+    plt.grid(True)
+    #plt.axis([margin_start, margin_end, 0, max_training_error])
+    plt.plot(
+        [item[0] for item in experiment_data],
+        [item[1] for item in experiment_data],
+        'b.'
+    )
+    plt.savefig('training_error_vs_margin_for_perceptron.png')
+
+    # plot with standard deviation
+    plt.figure()
+    plt.title('Training Error vs Margin for Perceptron with Deviation')
+    plt.xlabel('Margin')
+    plt.ylabel('Training Error')
+    plt.errorbar(
+        [item[0] for item in experiment_data],
+        [item[1] for item in experiment_data],
+        [item[2] for item in experiment_data],
+        linestyle='None',
+        ecolor='r',
+        marker='^'
+    )
+    plt.savefig('training_error_vs_margin_for_perceptron_with_deviation.png')
+
+    plt.show()
 
 
 
