@@ -28,3 +28,6 @@ Type the following snippet of code from the root of this repo:
 ```
 python3 -m plotter
 ```
+## Testing
+
+Jonathan Nguyen: Learning Rate vs Learning Error
