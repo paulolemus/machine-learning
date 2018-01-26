@@ -50,15 +50,15 @@ def main():
     """
     start = -400
     end = 400
-    training_size = 100
+    training_size = 1000
     testing_size = 1000
     margin_start = 0
-    margin_end = 175
+    margin_end = 120
     margin_step = 1
-    samples_per_margin = 10
+    samples_per_margin = 100
 
     dimensions = 2
-    learning_rate = 0.2
+    learning_rate = 0.3
 
     experiment_data = []
 
@@ -83,7 +83,7 @@ def main():
 
 
         average = statistics.mean(training_errors)
-        std = statistics.stdev(training_errors)
+        std = statistics.pstdev(training_errors)
         experiment_data.append([margin, average, std])
 
     # Preprocess
@@ -100,7 +100,14 @@ def main():
         [item[1] for item in experiment_data],
         'b.'
     )
-    plt.savefig('training_error_vs_margin_for_perceptron.png')
+    plt.text(
+        0.05,
+        0.9,
+        'learning rate: {}\ntraining size: {}\ntesting size: {}\n samp/margin: {}'.format(learning_rate, training_size, testing_size, samples_per_margin),
+        fontsize=14,
+        verticalalignment='top',
+    )
+    #plt.savefig('training_error_vs_margin_for_perceptron.png')
 
     # plot with standard deviation
     plt.figure()
@@ -115,7 +122,7 @@ def main():
         ecolor='r',
         marker='^'
     )
-    plt.savefig('training_error_vs_margin_for_perceptron_with_deviation.png')
+    #plt.savefig('training_error_vs_margin_for_perceptron_with_deviation.png')
 
     plt.show()
 
