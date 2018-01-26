@@ -17,9 +17,11 @@ def generate_dataset(n, x_s, x_e, y_s, y_e, margin):
     for __ in range(n):
         x = uniform(x_s, x_e)
         y = uniform(y_s, y_e)
-        while abs(x - y) < margin:
+        distance = abs(x-y) / 2**0.5
+        while distance < margin:
             x = uniform(x_s, x_e)
             y = uniform(y_s, y_e)
+            distance = abs(x-y) / 2**0.5
         dataset.append([[x, y], 1 if y > x else -1])
 
     return dataset
