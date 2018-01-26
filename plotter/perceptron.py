@@ -21,8 +21,8 @@ class Perceptron:
         if len(inputs) != self.dimensions:
             raise ValueError
 
-        inputs.insert(0, self.bias)
-        total = sum([x*w for x, w in zip(inputs, self.weights)])
+        input_vector = [self.bias] + inputs
+        total = sum([x*w for x, w in zip(input_vector, self.weights)])
 
         return 1 if total > self.threshold else -1
 
@@ -37,9 +37,10 @@ class Perceptron:
         dataset: List[coordinates, label]
         """
         for coordinates, label in dataset:
-            classification = self.sign(coordinates)
-            adjustment = self.learning_rate * (label - classification)
+            guess = self.sign(coordinates)
+            input_vec = [self.bias] + coordinates
 
-            self.weights = [weight+adjustment for weight in self.weights]
+            adjustments = [self.learning_rate*(label-guess)*x_in for x_in in input_vec]
+            self.weights = [w+adj for w, adj in zip(adjustments, self.weights)]
 
 
