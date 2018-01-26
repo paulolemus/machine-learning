@@ -18,6 +18,8 @@ Must generate the following graphs:
 
 * Margin vs training error
 * Number of training points vs training error for fixed testing set 3x
+* Ratio of size of training set to test set vs training error 
+* Learning rate vs training error
 * Perceptron separation error from optimal separation vs margin for accurate perceptron
 
 
@@ -28,6 +30,8 @@ Type the following snippet of code from the root of this repo:
 ```
 python3 -m plotter
 ```
-## Testing
-
-Jonathan Nguyen: Learning Rate vs Learning Error
+Alternatively if you are using pipenv, use the following:
+```
+pipenv install
+pipenv run python -m plotter
+```
