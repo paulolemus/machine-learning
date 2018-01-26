@@ -83,7 +83,7 @@ def main():
 
 
         average = statistics.mean(training_errors)
-        std = statistics.stdev(training_erros)
+        std = statistics.stdev(training_errors)
         experiment_data.append([margin, training_errors, average, std])
 
     # Plot and save graph
