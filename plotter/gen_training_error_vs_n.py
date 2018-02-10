@@ -50,24 +50,29 @@ def main():
     """
     start = -400
     end = 400
+
     training_size = 1000
+    training_size_incre = 1000
+    training_size_max = 50000
+    #training_size_max = 15000
+
     testing_size = 1000
-    margin_start = 0
-    margin_end = 120
-    margin_step = 1
-    samples_per_margin = 100
+   
+    margin = 0
+    samples_per_n = 1000
 
     dimensions = 2
     learning_rate = 0.3
 
     experiment_data = []
 
-    for margin in range(margin_start, margin_end, margin_step):
-        print('margin', margin, '/', margin_end)
+    while (training_size_max >= training_size):
+        #training_size = training_size + training_size_incre
+        print("Training size = ", training_size)
 
         training_errors = []
 
-        for __ in range(samples_per_margin):
+        for __ in range(samples_per_n):
             training_set = generate_dataset(training_size, [start, end], [start, end], margin)
             testing_set  = generate_dataset(testing_size, [start, end], [start, end], margin)
             p = Perceptron(dimensions, learning_rate)
@@ -81,18 +86,20 @@ def main():
             training_error = incorrect_count / testing_size
             training_errors.append(training_error)
 
-
+        #training_size = training_size + training_size_incre
         average = statistics.mean(training_errors)
         std = statistics.pstdev(training_errors)
-        experiment_data.append([margin, average, std])
+        experiment_data.append([training_size, average, std])
+        training_size = training_size + training_size_incre
+
 
     # Preprocess
     max_training_error = max([item[1] for item in experiment_data])
 
     # Plot without standard deviation
-    plt.title('Training Error vs Margin for Perceptron')
-    plt.xlabel('Margin')
-    plt.ylabel('Training Error')
+    plt.title('Test Error vs Training Set')
+    plt.xlabel('Training Set')
+    plt.ylabel('Test Error')
     plt.grid(True)
     #plt.axis([margin_start, margin_end, 0, max_training_error])
     plt.plot(
@@ -103,7 +110,7 @@ def main():
     plt.text(
         0.05,
         0.9,
-        'learning rate: {}\ntraining size: {}\ntesting size: {}\n samp/margin: {}'.format(learning_rate, training_size, testing_size, samples_per_margin),
+        'learning rate: {}\ntraining size: {}\ntesting size: {}\n samp/margin: {}'.format(learning_rate, training_size, testing_size, samples_per_n),
         fontsize=14,
         verticalalignment='top',
     )
@@ -111,9 +118,9 @@ def main():
 
     # plot with standard deviation
     plt.figure()
-    plt.title('Training Error vs Margin for Perceptron with Deviation')
-    plt.xlabel('Margin')
-    plt.ylabel('Training Error')
+    plt.title('Test Error vs Training Set for Perceptron with Deviation')
+    plt.xlabel('Training Set')
+    plt.ylabel('Test Error')
     plt.errorbar(
         [item[0] for item in experiment_data],
         [item[1] for item in experiment_data],

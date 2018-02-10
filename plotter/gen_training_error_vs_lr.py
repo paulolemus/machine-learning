@@ -52,18 +52,18 @@ def main():
     end = 400
     training_size = 1000
     testing_size = 1000
-    margin_start = 0
-    margin_end = 120
-    margin_step = 1
-    samples_per_margin = 100
+    margin = 0
+    samples_per_margin = 1000
 
     dimensions = 2
-    learning_rate = 0.3
+    learning_rate = 0.5
+    learning_rate_step = 0.5
+    learning_rate_end = 100.0
 
     experiment_data = []
 
-    for margin in range(margin_start, margin_end, margin_step):
-        print('margin', margin, '/', margin_end)
+    while (learning_rate_end >= learning_rate):
+        print('Learning Rate: ', learning_rate)
 
         training_errors = []
 
@@ -81,18 +81,18 @@ def main():
             training_error = incorrect_count / testing_size
             training_errors.append(training_error)
 
-
         average = statistics.mean(training_errors)
         std = statistics.pstdev(training_errors)
-        experiment_data.append([margin, average, std])
+        experiment_data.append([learning_rate, average, std])
+        learning_rate = learning_rate + learning_rate_step
 
     # Preprocess
     max_training_error = max([item[1] for item in experiment_data])
 
     # Plot without standard deviation
-    plt.title('Training Error vs Margin for Perceptron')
-    plt.xlabel('Margin')
-    plt.ylabel('Training Error')
+    plt.title('Test Error vs Learning Rate for Perceptron')
+    plt.xlabel('Learning Rate')
+    plt.ylabel('Test Error')
     plt.grid(True)
     #plt.axis([margin_start, margin_end, 0, max_training_error])
     plt.plot(
@@ -111,9 +111,9 @@ def main():
 
     # plot with standard deviation
     plt.figure()
-    plt.title('Training Error vs Margin for Perceptron with Deviation')
-    plt.xlabel('Margin')
-    plt.ylabel('Training Error')
+    plt.title('Test Error vs Learning Rate for Perceptron with Deviation')
+    plt.xlabel('Learning Rate')
+    plt.ylabel('Test Error')
     plt.errorbar(
         [item[0] for item in experiment_data],
         [item[1] for item in experiment_data],
