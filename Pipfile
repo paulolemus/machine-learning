@@ -9,7 +9,11 @@ name = "pypi"
 
 matplotlib = "*"
 numpy = "*"
+scipy = "*"
+scikit-learn = "*"
+ipykernel = "*"
 
 
 [dev-packages]
 
+ipython = "*"

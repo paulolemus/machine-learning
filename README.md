@@ -1,37 +1,37 @@
-# dissecting-perceptrons
-ICS 435 - Machine Learning, Assignment #2
+# Machine Learning
 
-## Assignment
+A repository made for ICS 435 - Machine Learning.
 
-Examine the training error of a perceptron as a function of:
+## Getting Started
 
-* Size of training data (N points)
-* Ratio of training data to test data
-* Margin (distance from optimal division to closest point)
+Below can be found instructions on how to configure your environment to execute code in the Jupyter notebooks and the code in the ml package.
 
-The goal of the exercise is to find a quantitative measure of perceptron training. 
+### Prerequisites
 
+You will need pipenv installed.
 
-## Graphs
-
-Must generate the following graphs:
-
-* Margin vs training error
-* Number of training points vs training error for fixed testing set 3x
-* Ratio of size of training set to test set vs training error 
-* Learning rate vs training error
-* Perceptron separation error from optimal separation vs margin for accurate perceptron
-
-
-## Building graphs
-
-Type the following snippet of code from the root of this repo:
-
+If you have pip3 installed, you can use
+```bash
+pip3 install pipenv
 ```
-python3 -m plotter
+or
+```bash
+pip install pipenv
 ```
-Alternatively if you are using pipenv, use the following:
-```
+
+### Installing
+
+Installing all the packages in a virtual environment with pipenv is very easy.
+Simply type
+```bash
 pipenv install
-pipenv run python -m plotter
 ```
+
+Next you will need to setup Jupyter Notebook in your environment. To do this, type
+```bash
+pipenv shell
+python -m ipykernel install --user --name=my-virtualenv-name
+```
+Where my-virtualenv-name can be found to the left of your terminal prompt after entering the pipenv shell. Once this is done, you can now execute code blocks in the notebooks with Jupyter Notebook from within the pipenv shell!
+
+ 
