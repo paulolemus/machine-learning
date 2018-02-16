@@ -12,35 +12,29 @@ class Perceptron:
         self.threshold = 0
         self.dimensions = dimensions
         self.learning_rate = learning_rate
-        self.weights = np.zeroes(dimensions+1)
+        self.weights = np.zeros(dimensions+1)
 
-    def sign(self, inputs):
+    def _sign(self, scalar):
         """
-        Classify a single coordinate.
+        Return 1 if the given value is greater than threshold, -1 otherwise.
         """
-        # Guard mismatched vector size
-        if len(inputs) != self.dimensions:
-            raise ValueError
+        return 1 if scalar >= 0 else -1
 
-        input_vector = [self.bias] + inputs
-        total = self.weights.dot(input_vector)
-        return 1 if total > self.threshold else -1
-
-
-    def train(self, dataset):
+    def classify(self, input_list):
         """
-        Provided a dataset, where a dataset consists of a list of coordinates paired
-        with their proper classification , update the perceptron weights using each
-        coordinate.
-
-        Acceptable format:
-        dataset: List[coordinates, label]
+        Binary classification of the given inputs.
+        Note that this does NOT train this perceptron.
         """
-        for coordinates, label in dataset:
-            guess = self.sign(coordinates)
-            input_vec = [self.bias] + coordinates
+        input_vec = np.insert(input_list, 0, self.bias)
+        return self._sign(self.weights.dot(input_vec))
 
-            adjustments = [self.learning_rate*(label-guess)*x_in for x_in in input_vec]
-            self.weights = self.weights * adjustments
+    def train(self, dataset, labels):
+
+        for coordinates, label in zip(dataset, labels):
+            guess = self.classify(coordinates)
+            input_vec = np.insert(coordinates, 0, self.bias)
+
+            adjustments = self.learning_rate * (label-guess) * input_vec
+            self.weights = self.weights + adjustments
 
 
